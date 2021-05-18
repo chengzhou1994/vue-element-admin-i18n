@@ -31,10 +31,8 @@ const whiteList = ['/login', '/auth-redirect'] // 没有重定向，白名单
 router.beforeEach(async (to, from, next) => {
   // 加载进度条
   NProgress.start()
-
   // set page title
   document.title = getPageTitle(to.meta.title)
-
   // determine whether the user has logged in
   const hasToken = getToken()
 
@@ -57,16 +55,12 @@ router.beforeEach(async (to, from, next) => {
           // const { roles } = await store.dispatch('getInfo')
           // 第一个 user/getInfo
           const { roles } = await store.dispatch('user/getInfo')
-
           // generate accessible routes map based on roles
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
-
           // 根据roles生成可访问的路由
           // store.dispatch('generateRoutes', roles)
           // 第二个这个是动态路由中的重要一步，生成可访问路由，根据当前用户的权限数组，和路由中可访问的权限数组，进行匹配生成。
-
           router.addRoutes(accessRoutes)
-
           // hack方法，以确保addRoutes是完整的
           // 设置replace: true，这样导航就不会留下历史记录
           // 进入路由
