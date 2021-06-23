@@ -9,7 +9,6 @@
    用一句话来概括：是否登陆？没有就给我老老实实登陆。是否有用户信息？没有就给我获取用户信息，
    并且生成可访问路由然后利用addRoutes进行添加。
 */
-
 import router from './router'
 import store from './store'
 import { Message } from 'element-ui'
