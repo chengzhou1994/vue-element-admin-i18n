@@ -1,5 +1,5 @@
 <template>
-  <div :class="{fullscreen:fullscreen}" class="tinymce-container" :style="{width:containerWidth}">
+  <div :class="{ fullscreen: fullscreen }" class="tinymce-container" :style="{ width: containerWidth }">
     <textarea :id="tinymceId" class="tinymce-textarea" />
     <div class="editor-custom-btn-container">
       <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />
@@ -26,35 +26,35 @@ export default {
   props: {
     id: {
       type: String,
-      default: function() {
+      default: function () {
         return 'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '')
-      }
+      },
     },
     value: {
       type: String,
-      default: ''
+      default: '',
     },
     toolbar: {
       type: Array,
       required: false,
       default() {
         return []
-      }
+      },
     },
     menubar: {
       type: String,
-      default: 'file edit insert view format table'
+      default: 'file edit insert view format table',
     },
     height: {
       type: [Number, String],
       required: false,
-      default: 360
+      default: 360,
     },
     width: {
       type: [Number, String],
       required: false,
-      default: 'auto'
-    }
+      default: 'auto',
+    },
   },
   data() {
     return {
@@ -63,11 +63,11 @@ export default {
       tinymceId: this.id,
       fullscreen: false,
       languageTypeList: {
-        'en': 'en',
-        'zh': 'zh_CN',
-        'es': 'es_MX',
-        'ja': 'ja'
-      }
+        en: 'en',
+        zh: 'zh_CN',
+        es: 'es_MX',
+        ja: 'ja',
+      },
     }
   },
   computed: {
@@ -76,23 +76,23 @@ export default {
     },
     containerWidth() {
       const width = this.width
-      if (/^[\d]+(\.[\d]+)?$/.test(width)) { // matches `100`, `'100'`
+      if (/^[\d]+(\.[\d]+)?$/.test(width)) {
+        // matches `100`, `'100'`
         return `${width}px`
       }
       return width
-    }
+    },
   },
   watch: {
     value(val) {
       if (!this.hasChange && this.hasInit) {
-        this.$nextTick(() =>
-          window.tinymce.get(this.tinymceId).setContent(val || ''))
+        this.$nextTick(() => window.tinymce.get(this.tinymceId).setContent(val || ''))
       }
     },
     language() {
       this.destroyTinymce()
       this.$nextTick(() => this.initTinymce())
-    }
+    },
   },
   mounted() {
     this.init()
@@ -140,7 +140,7 @@ export default {
         default_link_target: '_blank',
         link_title: false,
         nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
-        init_instance_callback: editor => {
+        init_instance_callback: (editor) => {
           if (_this.value) {
             editor.setContent(_this.value)
           }
@@ -158,7 +158,7 @@ export default {
         // it will try to keep these URLs intact
         // https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@convert_urls/
         // https://stackoverflow.com/questions/5196205/disable-tinymce-absolute-to-relative-url-conversions
-        convert_urls: false
+        convert_urls: false,
         // 整合七牛上传
         // images_dataimg_filter(img) {
         //   setTimeout(() => {
@@ -211,9 +211,9 @@ export default {
       window.tinymce.get(this.tinymceId).getContent()
     },
     imageSuccessCBK(arr) {
-      arr.forEach(v => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
-    }
-  }
+      arr.forEach((v) => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
+    },
+  },
 }
 </script>
 

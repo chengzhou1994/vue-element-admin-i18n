@@ -97,6 +97,7 @@ router.afterEach(() => {
 
 /*
   https://juejin.im/post/5d53f6c8f265da03ed1949f8
+
   总结：
   1.Login/index.vue点击登陆 提交user/login的actions。
   2.user/login进行登陆验证，登陆成功之后保存token到vuex和cookie中。
