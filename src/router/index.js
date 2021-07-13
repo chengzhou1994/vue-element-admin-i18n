@@ -1,6 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+/* 
+  分析:
+  Uncaught (in promise) undefined，未捕获的promise，因为应用程序实际上没有生成任何错误。
+  它只是一个导航（$router.push），在beforeEnter钩子中生成重定向（next（'/ foo'））
+  Vue-router >= 3.1.0 版本在使用 push 和 replace 进行跳转时控制台会抛出异常，
+  其主要原因是 vue-router 3.1.0 版本以后 router.push('/path') 返回了 promise ，
+  而当路由跳转异常时便会抛出错误，此前版本没有报错是因为 vue-router 根本没有返回错误信息，
+  所以之前我们一直无法捕获异常，而并非异常不存在。所以我们要做的就是在路由跑出异常时加上可以接收的回调就好了。
+*/
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch((err) => err)
+}
 Vue.use(Router)
 
 /* Layout */
